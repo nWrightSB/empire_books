@@ -1,0 +1,158 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Death Stars internal library catalog",
+    "version" : "1.5.0",
+    "title" : "Darth Library"
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/The_Empire/Darth_Library_2/1.5.0",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/books" : {
+      "get" : {
+        "tags" : [ "books" ],
+        "summary" : "Retrives an array of book objects scoped to title or authorID.",
+        "description" : "This resource is used to search our book database, and retrieve a set of objects related to your query. If there are no objects to return, the API will still return a 200 Status, but the \"results\" set will be an empty array and should be accounted for.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "title",
+          "in" : "query",
+          "description" : "Title string to query. API will return both whole and partial matches dependent on the *fullMatch* parameter.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "fullMatch",
+          "in" : "query",
+          "description" : "Boolean value of whether or not to return and exact match to the title query string.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "authorID",
+          "in" : "query",
+          "description" : "ID of author to retrieve related books. Similar functionality can be found by querying */authors/{id}/books* if that level is desired.",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Array of book objects is returned based on search criterias",
+            "schema" : {
+              "type" : "object",
+              "required" : [ "_link", "description", "id", "title" ],
+              "properties" : {
+                "id" : {
+                  "type" : "integer",
+                  "example" : 66
+                },
+                "title" : {
+                  "type" : "string",
+                  "example" : "The Tragedy of Darth Plagueis the Wise"
+                },
+                "description" : {
+                  "type" : "string",
+                  "example" : "Not a story the Jedi would tell you"
+                },
+                "_link" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "status" : {
+                  "type" : "integer",
+                  "example" : 404,
+                  "description" : "status code"
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "This was not the request you're looking for.",
+                  "description" : "status string"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "server error",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "status" : {
+                  "type" : "integer",
+                  "example" : 500,
+                  "description" : "status code"
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "There is a great disturbance in the server.",
+                  "description" : "status string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "inline_response_404" : {
+      "properties" : {
+        "status" : {
+          "type" : "integer",
+          "example" : 404,
+          "description" : "status code"
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "This was not the request you're looking for.",
+          "description" : "status string"
+        }
+      }
+    },
+    "inline_response_200" : {
+      "required" : [ "_link", "description", "id", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 66
+        },
+        "title" : {
+          "type" : "string",
+          "example" : "The Tragedy of Darth Plagueis the Wise"
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Not a story the Jedi would tell you"
+        },
+        "_link" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "_link" : "_link",
+        "description" : "Not a story the Jedi would tell you",
+        "id" : 66,
+        "title" : "The Tragedy of Darth Plagueis the Wise"
+      }
+    },
+    "inline_response_500" : {
+      "properties" : {
+        "status" : {
+          "type" : "integer",
+          "example" : 500,
+          "description" : "status code"
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "There is a great disturbance in the server.",
+          "description" : "status string"
+        }
+      }
+    }
+  }
+}
